@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love You Jana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Great+Vibes&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px;
+            color: #c2185b;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        /* color circles removed */
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            flex-direction: column;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .heart-container {
+            margin-bottom: 50px;
+            perspective: 1200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        svg.heart-3d {
+            width: 180px;
+            height: 180px;
+            filter: drop-shadow(0 20px 50px rgba(232, 73, 128, 0.6)) drop-shadow(0 0 30px rgba(255, 82, 82, 0.3));
+            animation: rotate3d 4s infinite linear, beat3d 1.5s infinite ease-in-out, glow 2s infinite;
+            transform-style: preserve-3d;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent);
+            border-radius: 50%;
+            padding: 20px;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                filter: drop-shadow(0 20px 50px rgba(232, 73, 128, 0.6)) drop-shadow(0 0 30px rgba(255, 82, 82, 0.3));
+            }
+            50% {
+                filter: drop-shadow(0 20px 50px rgba(232, 73, 128, 0.8)) drop-shadow(0 0 40px rgba(255, 82, 82, 0.5));
+            }
+        }
+
+        @keyframes rotate3d {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            }
+            25% {
+                transform: rotateX(25deg) rotateY(90deg) rotateZ(20deg);
+            }
+            50% {
+                transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+            }
+            75% {
+                transform: rotateX(-25deg) rotateY(270deg) rotateZ(-20deg);
+            }
+            100% {
+                transform: rotateX(0deg) rotateY(360deg) rotateZ(0deg);
+            }
+        }
+
+        @keyframes beat3d {
+            0%, 100% {
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+            }
+            50% {
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1.2);
+            }
+        }
+
+        h1 {
+            font-size: 72px;
+            color: #8b1a47;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #d81b60;
+            margin-bottom: 50px;
+            line-height: 1.6;
+            font-weight: 400;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .open-btn {
+            background: transparent;
+            border: 3px solid #e84980;
+            color: #e84980;
+            padding: 15px 50px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            margin-bottom: 40px;
+        }
+
+        .open-btn:hover {
+            background: #e84980;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(232, 73, 128, 0.3);
+        }
+
+        .open-btn:active {
+            transform: scale(0.98);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeInOverlay 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeInOverlay {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-card {
+            background: linear-gradient(180deg, #ffffff 0%, #fff6f8 100%);
+            border-radius: 18px;
+            padding: 40px 36px;
+            max-width: 520px;
+            width: 92%;
+            text-align: center;
+            position: relative;
+            animation: slideUp 0.35s ease;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+            border: 3px solid rgba(232,73,128,0.06);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px) scale(0.98);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: #fff0f3;
+            border: 1px solid rgba(232,73,128,0.08);
+            color: #e84980;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 6px 18px rgba(232,73,128,0.08);
+        }
+
+        .close-btn:hover { transform: scale(1.05); }
+
+        .modal-heart-3d {
+            width: 100px;
+            height: 100px;
+            margin: 6px auto 18px;
+            transform-style: preserve-3d;
+            animation: modalHeartEntrance 1s ease forwards;
+        }
+
+        @keyframes modalHeartEntrance {
+            0% { transform: translateY(-10px) rotateX(60deg) scale(0.6); opacity: 0; }
+            60% { transform: translateY(0px) rotateX(10deg) scale(1.05); opacity: 1; }
+            100% { transform: translateY(0px) rotateX(0deg) scale(1); }
+        }
+
+        @keyframes modalHeartRotate {
+            0% { transform: rotateX(0) rotateY(0); }
+            50% { transform: rotateX(10deg) rotateY(180deg); }
+            100% { transform: rotateX(0) rotateY(360deg); }
+        }
+
+        .modal-heart-3d .heart-shape-svg { transform-origin: 50% 50%; animation: modalHeartRotate 6s linear infinite; }
+
+        .modal-poem {
+            font-family: 'Dancing Script', 'Great Vibes', cursive;
+            font-size: 30px;
+            color: #b71c46;
+            margin: 10px 24px 26px;
+            line-height: 1.5;
+            font-weight: 400;
+            letter-spacing: 0.4px;
+            text-shadow: 0 2px 6px rgba(183,28,70,0.06);
+            opacity: 0;
+            transform: translateY(8px) scale(0.98);
+            transition: opacity 0.45s ease, transform 0.45s ease;
+            position: relative;
+            text-align: center;
+        }
+
+        .modal-poem .poem-line { display: block; }
+
+        .modal-poem::before,
+        .modal-poem::after {
+            content: '';
+        }
+
+        .modal-poem.visible { opacity: 1; transform: translateY(0) scale(1); }
+
+        .redraw-btn {
+            background: linear-gradient(90deg,#e84980,#d81b60);
+            color: white;
+            border: none;
+            padding: 12px 36px;
+            border-radius: 28px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+            box-shadow: 0 8px 24px rgba(216,27,96,0.18);
+        }
+
+        .redraw-btn:hover { transform: translateY(-3px); }
+            text-align: center;
+            padding: 30px;
+            color: #c2185b;
+            font-size: 12px;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 48px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .heart-shape,
+            .heart-shape::before,
+            .heart-shape::after {
+                width: 100px;
+                height: 100px;
+            }
+
+            .heart-shape::before {
+                left: -50px;
+                transform-origin: 100px 100px;
+            }
+
+            .heart-shape::after {
+                right: -50px;
+                transform-origin: 0 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>For Jana Only!</header>
+
+    <!-- color selector removed -->
+
+    <div class="main-content">
+        <div class="heart-container">
+            <svg class="heart-3d" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ff5252;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#e84980;stop-opacity:1" />
+                    </linearGradient>
+                    <filter id="shadow">
+                        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+                    </filter>
+                </defs>
+                <path d="M50,90 C25,70 10,55 10,40 C10,25 20,15 30,15 C40,15 50,25 50,25 C50,25 60,15 70,15 C80,15 90,25 90,40 C90,55 75,70 50,90 Z" 
+                      fill="url(#heartGradient)" 
+                      filter="url(#shadow)"
+                      style="filter: drop-shadow(0 5px 15px rgba(232, 73, 128, 0.4));">
+                </path>
+            </svg>
+        </div>
+
+        <h1>i Love You, Jana</h1>
+
+        <p class="subtitle">You are the poetry my heart was always waiting to write.</p>
+
+        <button class="open-btn" onclick="openModal()">OPEN</button>
+    </div>
+
+    <footer>INFINITE LOVE WALL</footer>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div class="modal-heart-3d" id="modalHeart">
+                <svg class="heart-shape-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="mGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ff6b6b" />
+                            <stop offset="100%" stop-color="#e84980" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M50,90 C25,70 10,55 10,40 C10,25 20,15 30,15 C40,15 50,25 50,25 C50,25 60,15 70,15 C80,15 90,25 90,40 C90,55 75,70 50,90 Z"
+                          fill="url(#mGradient)" />
+                </svg>
+            </div>
+
+            <div class="modal-poem" id="modalPoem">
+                <span class="poem-line">Jana, gathering stardust for you,</span>
+                <span class="poem-line">your laugh is the dawn that brightens my days;</span>
+                <span class="poem-line">I keep a thousand gentle songs in secret drawers,</span>
+                <span class="poem-line">and quiet promises tucked between my palms.</span>
+                <span class="poem-line">Stay close — my heart learns its favorite rhythm with you.</span>
+            </div>
+
+            <button class="redraw-btn" id="modalRedraw">Redraw Heart</button>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('modal');
+        const modalHeart = document.getElementById('modalHeart');
+        const modalPoem = document.getElementById('modalPoem');
+        const modalRedraw = document.getElementById('modalRedraw');
+
+        function openModal() {
+            modal.classList.add('active');
+            // reset poem hidden
+            modalPoem.classList.remove('visible');
+            // restart heart entrance animation
+            modalHeart.style.animation = 'none';
+            // force reflow then apply entrance
+            void modalHeart.offsetWidth;
+            modalHeart.style.animation = 'modalHeartEntrance 1s ease forwards';
+            // show poem after heart entrance
+            setTimeout(() => modalPoem.classList.add('visible'), 900);
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            modalPoem.classList.remove('visible');
+        }
+
+        function redrawHeartModal() {
+            // briefly restart the heart animation
+            modalHeart.style.animation = 'none';
+            void modalHeart.offsetWidth;
+            modalHeart.style.animation = 'modalHeartEntrance 1s ease forwards';
+            modalPoem.classList.remove('visible');
+            setTimeout(() => modalPoem.classList.add('visible'), 900);
+        }
+
+        modalRedraw.addEventListener('click', redrawHeartModal);
+
+        // Close modal when clicking on overlay
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Close on ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // keep main heart redraw behavior
+        function redrawHeart() {
+            const heart = document.querySelector('.heart-3d');
+            heart.style.animation = 'none';
+            setTimeout(() => {
+                heart.style.animation = 'rotate3d 4s infinite linear, beat3d 1.5s infinite ease-in-out, glow 2s infinite';
+            }, 10);
+        }
+    </script>
+</body>
+</html>
